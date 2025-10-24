@@ -31,7 +31,7 @@ export class NotesService {
         // Return mock data if environment variable is set
         if (import.meta.env.VITE_USE_MOCK_DATA === 'true') {
             const newNote: Note = {
-                id: this.generateId(),
+                id: NotesService.generateId(),
                 title: input.title,
                 content: input.content || '',
                 createdAt: new Date(),
@@ -43,7 +43,7 @@ export class NotesService {
         return new Promise(resolve => {
             const notes = StorageService.getItem<Note[]>(NOTES_STORAGE_KEY, []);
             const newNote: Note = {
-                id: this.generateId(),
+                id: NotesService.generateId(),
                 title: input.title,
                 content: input.content || '',
                 createdAt: new Date(),

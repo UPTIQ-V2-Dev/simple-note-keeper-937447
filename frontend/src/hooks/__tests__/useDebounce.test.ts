@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { renderHook } from '@testing-library/react';
 import { useDebounce } from '../useDebounce';
 
 describe('useDebounce', () => {
@@ -31,9 +31,7 @@ describe('useDebounce', () => {
         expect(result.current).toBe('initial');
 
         // Fast-forward time
-        act(() => {
-            vi.advanceTimersByTime(300);
-        });
+        vi.advanceTimersByTime(300);
 
         // Value should now be updated
         expect(result.current).toBe('updated');
@@ -46,10 +44,10 @@ describe('useDebounce', () => {
 
         // Rapid changes
         rerender({ value: 'change1', delay: 300 });
-        act(() => vi.advanceTimersByTime(100));
+        vi.advanceTimersByTime(100);
 
         rerender({ value: 'change2', delay: 300 });
-        act(() => vi.advanceTimersByTime(100));
+        vi.advanceTimersByTime(100);
 
         rerender({ value: 'final', delay: 300 });
 
@@ -57,9 +55,7 @@ describe('useDebounce', () => {
         expect(result.current).toBe('initial');
 
         // Complete the debounce
-        act(() => {
-            vi.advanceTimersByTime(300);
-        });
+        vi.advanceTimersByTime(300);
 
         // Should have final value
         expect(result.current).toBe('final');
@@ -73,15 +69,11 @@ describe('useDebounce', () => {
         rerender({ value: 'updated', delay: 500 });
 
         // Should not update before delay
-        act(() => {
-            vi.advanceTimersByTime(400);
-        });
+        vi.advanceTimersByTime(400);
         expect(result.current).toBe('initial');
 
         // Should update after full delay
-        act(() => {
-            vi.advanceTimersByTime(100);
-        });
+        vi.advanceTimersByTime(100);
         expect(result.current).toBe('updated');
     });
 
@@ -93,9 +85,7 @@ describe('useDebounce', () => {
         const newValue = { id: 2, name: 'updated' };
         rerender({ value: newValue, delay: 300 });
 
-        act(() => {
-            vi.advanceTimersByTime(300);
-        });
+        vi.advanceTimersByTime(300);
 
         expect(result.current).toEqual(newValue);
     });
